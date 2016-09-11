@@ -57,7 +57,6 @@ class Collector(SerialClient):
 	def __init__(self, config_path, read_callback=None):
 		self.config = RawConfigParser()
 		self.config.read(config_path)
-		self.recv_buffer = b''
 		device = self.config.get('serial', 'device')
 		speed = self.config.getint('serial', 'speed')
 		super(Collector, self).__init__(device, speed)
@@ -65,13 +64,10 @@ class Collector(SerialClient):
 
 	def handle_read(self):
 		raw = super(Collector, self).handle_read()
-		self.recv_buffer += raw
 		try:
-			self.read_callback(raven.parser.RavenMessageParser.parse(self.recv_buffer.strip(b'\x00')))
+			self.read_callback(raven.parser.RavenMessageParser.parse(raw.strip(b'\x00')))
 		except Exception:
 			pass
-		else:
-			self.recv_buffer = b''
 
 	def send_command(self, command):
 		raw = raven.parser.RavenCommand.dump(command)
