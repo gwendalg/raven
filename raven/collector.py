@@ -73,6 +73,7 @@ class Collector(SerialClient):
 		raw = raven.parser.RavenCommand.dump(command)
 		self.send_message(raw)
 
+
 if __name__ == '__main__':
 	import time
 	logging.basicConfig(level=logging.DEBUG)

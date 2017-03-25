@@ -1,6 +1,6 @@
-import raven.collector
-import raven.mqtt
-import raven.watchdog
+import collector
+import mqtt
+import watchdog
 import logging
 import time
 import argparse
@@ -19,9 +19,9 @@ class Runner(object):
 	def __init__(self, config_path):
 		self.config = RawConfigParser()
 		self.config.read(config_path)
-		self.collector = raven.collector.Collector(config_path, read_callback=self.recv_message)
-		self.mqtt = raven.mqtt.MosquittoClient(config_path)
-		self.watchdog = raven.watchdog.Watchdog(self.config.getint('serial', 'watchdog'), self._timeout)
+		self.collector = collector.Collector(config_path, read_callback=self.recv_message)
+		self.mqtt = mqtt.MosquittoClient(config_path)
+		self.watchdog = watchdog.Watchdog(self.config.getint('serial', 'watchdog'), self._timeout)
 
 	def start(self):
 		self.mqtt.start()
