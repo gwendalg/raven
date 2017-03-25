@@ -27,6 +27,7 @@ class Runner(object):
 		self.mqtt.start()
 		self.collector.start()
 		self.watchdog.start()
+		self.collector.send_command("initialize")
 
 	def stop(self):
 		try:
