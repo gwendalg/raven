@@ -50,7 +50,7 @@ class SerialClient(object, asyncore.dispatcher):
 		self.send_buffer = self.send_buffer[bytes_sent:]
 
 	def send_message(self, raw):
-		with self.send_lock.acquire():
+		with self.send_lock:
 			self.send_buffer += raw
 
 class Collector(SerialClient):
